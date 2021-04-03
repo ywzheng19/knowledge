@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>登录 - 东亚技术知识库</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+  <style>
+  body {
+      background-image: url({% static 'image/2.jpg' %});
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-attachment: fixed;
+      background-position: center;
+  }
+  .card {
+      width: 280px;
+      height: 300px;
+      box-shadow: 8px 8px 8px;
+      text-align: center;
+      padding: 20px;
+      opacity: 0.8;
+  }
+  .center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+  }
+  h2 {
+      font-weight: bold;
+  }
+  input {
+      border-style: none none solid none;
+      outline: none;
+  }
+  span {
+      color: red;
+      font-weight: bold;
+  }
+  </style>
+</head>
+<body>
+
+<div class="center">
+  <div class="card">
+    <h2>东亚技术知识库</h2>
+    <form action="{% url 'login' %}" method="POST">
+        {% csrf_token %}
+        <br><br>
+        <input type="text" name="username" id="username" placeholder="用户名"><br>
+        <br><br>
+        <input type="password" name="password" id="password" placeholder="密码"><br>
+        <span>{{ message }}</span><br>
+  	  <div style="margin:auto">
+          <input class="btn btn-primary" type="submit" value="登录">
+  	  </div>
+    </form>
+  </div>
+</div>
+
+</body>
+</html>

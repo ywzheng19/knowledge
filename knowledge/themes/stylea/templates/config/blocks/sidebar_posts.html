@@ -1,0 +1,8 @@
+<ul>
+  {% for post in posts %}
+    <li>
+    <a href="{% url 'post-detail' post.id %}">{{ post.title }}</a>
+    <span>(阅读次数{{ post.pv }})</span>
+    </li>
+  {% endfor %}
+</ul>

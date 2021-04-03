@@ -1,0 +1,22 @@
+{% extends "./base.html" %}
+{% load static %}
+
+{% block title %}
+    更新日志
+{% endblock %}
+
+{% block main %}
+
+{% if log_list %}
+  {% for log in log_list %}
+    <h3>{{ log.title }}</h3>
+    <p>
+        {% autoescape off %}
+        {{ log.content }}
+        {% endautoescape %}
+    </p>
+    <hr/>
+  {% endfor %}
+{% endif %}
+
+{% endblock %}

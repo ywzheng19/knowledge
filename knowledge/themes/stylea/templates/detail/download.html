@@ -1,0 +1,22 @@
+{% extends "./base.html" %}
+{% load static %}
+
+{% block title %}
+    文件下载 
+{% endblock %}
+
+{% block main %}
+
+{% if file_list %}
+  {% for file in file_list %}
+    <div class="file-cus">
+      <p>{{ file.name }}：</p>
+      <a href="{% url 'download-id' file.id %}"><p>{{ file.upload }}</p></a>
+    </div>
+    <div class="file-hr">
+      <hr/>
+    </div>  
+  {% endfor %}
+{% endif %}
+
+{% endblock %}

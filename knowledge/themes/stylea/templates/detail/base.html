@@ -1,0 +1,124 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>{% block title %}首页{% endblock %} - 东亚技术知识库</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+  <style>
+  #ontop {
+      position: fixed;
+      bottom: 100px;
+      right: 50px;
+  }
+  #ontop a{
+      text-decoration: none;
+      color: black;
+  }
+  .card-header:hover {
+      color:#004085;
+      background-color:#9fcdff;
+  }
+  .card a {
+      text-decoration: none;
+  }
+  h5 {
+      color: black;
+  }
+  .bottom-cus {
+      display: flex;
+      justify-content: center;
+      list-style: none;
+  }
+  .bottom-cus a {
+      text-decoration: none;
+      color: black;
+  }
+  .file-cus {
+      display: flex;
+  }
+  .file-cus p {
+      margin-bottom: 0;
+  }
+  .file-cus a {
+      text-decoration: none;
+  }
+  .file-hr hr{
+      margin-top: 0;
+  }
+  </style>
+</head>
+<body>
+
+{# 头部展示 #}
+<div class="jumbotron text-center" style="margin-bottom:1rem; background-color:#b8daff">
+  <h1>东亚技术知识库</h1>
+  <p>欢迎, {{ user }}.<a href="{% url 'logout' %}"> 注销</a></p> 
+</div>
+{# 结束头部展示 #}
+
+{# 导航栏展示 #}
+<div class="container-fluid">
+  <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+    <a class="navbar-brand" href="/">首页</a>
+    <ul class="navbar-nav mr-auto">
+    {# 展示可导航的正常状态的分类对象 #}
+    {% for cate in navs %}
+      <li class="nav-item">
+          <a class="nav-link" href="{% url 'category-list' cate.id %}">{{ cate.name }}</a>
+      </li>
+    {% endfor %}
+    </ul>
+    {# 搜索框 #}
+    <form class="form-inline my-2 my-lg-0", action='/search/' method='GET'>
+      <input class="form-control mr-sm-2" type="search" name="keyword" placeholder="标题或摘要"
+          aria-label="Search" value="{{ keyword }}">
+      <button class="btn btn-outline-success" type="submit">搜索文章</button>
+    </form>
+  </nav>
+</div>
+{# 结束导航栏展示 #}
+
+<hr/>
+
+{# 知识列表, 详情页, 侧边栏展示; main主体占9个栅格/侧边栏占3个栅格 #}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12 col-lg-9 post-list">
+      {% block main %}
+      {% endblock %}
+    </div>
+    <div class="col-sm-0 col-lg-3 side-bar">
+      {% block sidebar %}
+        {% for sidebar in sidebars %}
+        <div class="card sidebar" style="margin-bottom:1rem">
+            <div class="card-body">
+              <h4 class="card-title">{{ sidebar.title }}</h4>
+              <p>{{ sidebar.content_html }}</p>
+            </div>
+        </div>
+        {% endfor %}
+      {% endblock %}
+  </div>
+</div>
+{# 结束主题和侧边栏展示 #}
+
+<hr/>
+
+{# 20210309 增加滚动按钮, 返回顶部 #}
+<button id="ontop"><a href="#">返回顶部</a></button>
+
+
+{# 底部展示 #}
+<div class="jumbotron text-center" style="margin-bottom:1rem">
+  <ul class="bottom-cus">
+    <li>Powered by tech@dyqh |</li>
+    <li><a href="{% url 'changelog' %}">&nbsp更新日志 |</a></li>
+    <li><a href="{% url 'download' %}">&nbsp文件下载</a></li>
+  </ul>
+</div>
+{# 结束底部配置 #}
+
+</body>
+</html>

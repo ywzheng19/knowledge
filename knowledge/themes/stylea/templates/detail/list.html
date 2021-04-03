@@ -1,0 +1,100 @@
+{% extends "./base.html" %}
+
+{% block title %}
+    {% if tag %}
+    标签页: {{ tag.name }}
+    {% elif category %}
+    分类页: {{ category.name }}
+    {% else %}
+    首页
+    {% endif %}
+{% endblock %}
+
+
+{% block main %}
+
+{# 20210308 优化显示 置顶知识显示位置 #}
+<div class="card">
+  {% if post_top %}
+    {% for post in post_top %}
+      <a href="{% url 'post-detail' post.id %}"><h5 class="card-header">【置顶】{{ post.title }}</h5></a>
+    {% endfor %}
+  {% endif %}
+</div>
+
+<hr/>
+
+{% if post_list %}
+  {% for post in post_list %}
+    <div class="card">
+      <a href="{% url 'post-detail' post.id %}"><h5 class="card-header">{{ post.title }}</h5></a>
+      <div class="card-body">
+        <h5 class="card-title">{{ post.desc }}</h5>
+        <div class="card-text">
+          <span>作者: <a href="{% url 'author' post.owner.id %}">{{ post.owner.username }}</a></span>
+          <span>分类: <a href="{% url 'category-list' post.category.id %}">{{ post.category.name}}</a></span>
+          <span>标签: 
+              {% for tag in post.tag.all %}
+              <a href="{% url 'tag-list' tag.id %}">{{ tag.name }}</a>
+              {% endfor %}
+          </span>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+{% else %}
+  <h5>暂无知识</h5>
+{% endif %}
+
+<hr/>
+
+<div>
+  <nav aria-label="Page navigation example">
+    <ul class="pagination">
+      {# 上一页; 存在上一页可跳转 #}
+      {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <span class="page-link" aria-hidden="true">&laquo;</span>
+        </li>
+      {% endif %}
+
+      {# 全部页码; 当前页活动状态并不可跳转 #}
+      {% for page_num in page_obj.paginator.page_range %}
+        {% if page_num == page_obj.number %}
+          <li class="page-item active">
+            <span class="page-link">{{ page_num }}</span>
+          </li>
+        {% else %}
+          {% if page_num != '...' %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+            </li>
+          {% else %}
+            <span class="page-link">{{ page_num }}</span>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+  
+      {# 下一页; 存在下一页可跳转 #}
+      {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+      {% else %}
+        <li class="page-item disabled">
+          <span class="page-link" aria-hidden="true">&raquo;</span>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+</div>
+
+
+{% endblock %}
