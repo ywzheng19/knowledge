@@ -25,7 +25,7 @@ SECRET_KEY = ')v8s(*=@-m$#$1%wegnr!xa6fn_)h3y)eadwq*4jo&ptvb&qws'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['121.4.180.112',]
+ALLOWED_HOSTS = ['',]
 
 
 # Application definition
@@ -83,10 +83,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'knowledge_db',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': '121.4.180.112',
-        'PORT': 3306,
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': ,
         'CONN_MAX_AGE': 5 * 60,
         'OPTIONS': {'charset': 'utf8mb4'}
     }
